@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Tweeter</string>
+    <string name="login_button_prompt">Click me to login</string>
+    <string name="FollowersPrompt">Followers:</string>
+    <string name="followeePrompt">Following</string>
+    <string name="tab1">Feed</string>
+    <string name="tab2">STORY</string>
+    <string name="tab3">FOLLOWING</string>
+    <string name="tab4">FOLLOWERS</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_person">PersonActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="FollowingPrompt">Following:</string>
+    <string name="logoutPrompt">Logout</string>
+</resources>

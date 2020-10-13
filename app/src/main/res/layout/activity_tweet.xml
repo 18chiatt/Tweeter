@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.TweetActivity">
+
+
+    <Button
+        android:id="@+id/tweet_cancel"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tweet_editText"
+        android:layout_margin="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="Button" />
+
+    <ImageView
+            android:id="@+id/tweet_profilePic"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:padding="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/tweet_firstLastName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="20dp"
+            app:layout_constraintTop_toTopOf="@id/tweet_profilePic"
+            app:layout_constraintLeft_toRightOf="@id/tweet_profilePic"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/tweet_alias"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toRightOf="@id/tweet_profilePic"
+            app:layout_constraintBottom_toBottomOf="@id/tweet_profilePic"
+            android:padding="5dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="20dp"
+            android:text="TextView" />
+
+    <EditText
+        android:id="@+id/tweet_editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tweet_profilePic"
+        android:layout_margin="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name" />
+
+    <Button
+        android:id="@+id/tweet_submit"
+        android:layout_width="200dp"
+        android:layout_margin="20dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tweet_editText"
+        app:layout_constraintLeft_toRightOf="@id/tweet_cancel"
+
+        android:text="Button" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
