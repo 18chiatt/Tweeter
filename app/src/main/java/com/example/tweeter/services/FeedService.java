@@ -5,7 +5,6 @@ import com.example.tweeter.Server.ServerFake;
 import com.example.tweeter.model.Response.FeedResponse;
 import com.example.tweeter.model.domain.Status;
 import com.example.tweeter.model.request.FeedRequest;
-import com.example.tweeter.view.util.ImageUtils;
 
 public class FeedService {
 

@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 import com.example.tweeter.Server.ModelObserver;
 import com.example.tweeter.model.Response.FollowManipulationResult;
 import com.example.tweeter.model.request.FollowManipulationRequest;
-import com.example.tweeter.presenter.util.FollowManipulationPresenter;
+import com.example.tweeter.presenter.FollowManipulationPresenter;
 
 public class FollowManipulationTask extends AsyncTask<FollowManipulationRequest,Integer,Integer> {
     private FollowManipulationPresenter toUse;

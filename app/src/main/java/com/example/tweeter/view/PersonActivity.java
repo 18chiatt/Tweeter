@@ -15,28 +15,21 @@ import com.example.tweeter.model.request.UserStatsRequest;
 import com.example.tweeter.presenter.FollowingStatusPresenter;
 import com.example.tweeter.presenter.ObserverNotificationPresenter;
 import com.example.tweeter.presenter.UserStatsPresenter;
-import com.example.tweeter.presenter.util.FollowManipulationPresenter;
+import com.example.tweeter.presenter.FollowManipulationPresenter;
 import com.example.tweeter.view.Tasks.FollowManipulationTask;
 import com.example.tweeter.view.Tasks.FollowingStatusTask;
 import com.example.tweeter.view.Tasks.RegisterObserverTask;
 import com.example.tweeter.view.Tasks.UserStatsTask;
 import com.example.tweeter.view.fragments.StatusLists.FeedFragment;
-import com.example.tweeter.view.fragments.StatusLists.StoryFragment;
 import com.example.tweeter.view.util.ImageUtils;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 public class PersonActivity extends AppCompatActivity implements UserStatsTask.Observer, FollowingStatusTask.Observer, FollowManipulationTask.Observer, ModelObserver {
     private TextView firstLastName;

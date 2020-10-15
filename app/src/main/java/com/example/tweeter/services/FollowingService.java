@@ -2,7 +2,6 @@ package com.example.tweeter.services;
 
 import com.example.tweeter.Server.ServerFacade;
 import com.example.tweeter.Server.ServerFake;
-import com.example.tweeter.model.Response.FollowerResponse;
 import com.example.tweeter.model.Response.FollowingResponse;
 import com.example.tweeter.model.domain.User;
 import com.example.tweeter.model.request.FollowingRequest;

@@ -1,4 +1,4 @@
-package com.example.tweeter.presenter.util;
+package com.example.tweeter.presenter;
 
 import com.example.tweeter.model.Response.FollowManipulationResult;
 import com.example.tweeter.model.request.FollowManipulationRequest;

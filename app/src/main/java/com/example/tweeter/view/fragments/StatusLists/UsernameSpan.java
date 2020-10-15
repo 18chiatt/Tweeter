@@ -38,7 +38,7 @@ public class UsernameSpan extends ClickableSpan implements UserTask.Observer {
     public void updateUser(UserResponse r) {
         this.theUser = r.getToRespondWith();
         if(!r.isSuccess()){
-            Toast.makeText(context,"Unable to find user!",Toast.LENGTH_LONG).show();
+            Toast.makeText(context,"Unable to find User!",Toast.LENGTH_LONG).show();
             this.theUser = r.getToRespondWith();
 
         } else {

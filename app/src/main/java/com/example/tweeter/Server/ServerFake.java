@@ -56,7 +56,11 @@ public class ServerFake implements ServerFacade {
 
 
 
-
+    public void notifyObservers(){
+        for(ModelObserver o : toNotify){
+            o.modelUpdated();
+        }
+    }
 
     public ServerFake() {
         if(theUsers == null) {
@@ -78,10 +82,10 @@ public class ServerFake implements ServerFacade {
             toRemove = null;
         }
 
-
     }
 
     public void generateTweets(){
+
         gen = new TweetGenerator(theUsers,numTweets);
 
         theTweets = new TreeSet<>();
@@ -145,6 +149,15 @@ public class ServerFake implements ServerFacade {
                 break;
             }
 
+        }
+
+        if(getFollowing(new FollowingRequest(res,5,null)).getUsersTheyAreFollowing().size() ==0){
+            FollowGenerator theGenerator = new FollowGenerator(theUsers);
+            theFollows.addAll(theGenerator.generateFollows(res,numPeopleEveryoneFollows));
+            theFollows.addAll(theGenerator.makePeopleFollow(res, numPeopleEveryoneFollows)) ;
+
+            gen = new TweetGenerator(theUsers,numTweets);
+            theTweets.addAll(gen.getTweets(res));
         }
 
         if(res == null){
@@ -220,12 +233,11 @@ public class ServerFake implements ServerFacade {
         Deque<User> toReturn = new ArrayDeque<>();
         if(lastToNotInclude != null){
             while(!theFollows.get(index).getFollower().equals(lastToNotInclude) || theFollows.get(index).getPersonBeingFollowed().equals(toFindOf) == false){ //while follow[index] is NOT lastToNotInclude, iterate
-                index++;
+                    index++;
             }
             //index is lastToNotInclude
             index++; //index is now starting index
         }
-        index++;
 
         int remaining = maxToGet;
         for(int i = index; i < theFollows.size() && remaining > 0; i ++){
@@ -236,7 +248,7 @@ public class ServerFake implements ServerFacade {
         }
 
 
-        hasMore = remaining == 0;
+        hasMore = (remaining == 0);
         if(toReturn.size() != 0) {
             if (lastToNotInclude != null && toReturn.getFirst().equals(lastToNotInclude)) {
                 toReturn.pop();
@@ -306,6 +318,7 @@ public class ServerFake implements ServerFacade {
         User toGetOf = req.getToGetFeedOf();
         Set<User> peopleTheyFollow = new HashSet<>();
         peopleTheyFollow.addAll( getUsersBeingFollowed(toGetOf,Integer.MAX_VALUE,null).getUsersTheyAreFollowing());
+
         List<Status> toReturn = new ArrayList<>();
 
         Iterator<Status> iter = theTweets.iterator();
@@ -314,7 +327,6 @@ public class ServerFake implements ServerFacade {
             while(iter.hasNext()){
                 Status theStatus = iter.next();
                 if(theStatus.equals(req.getPreviousLast())){
-                    iter.next();
                     break;
                 }
             }
@@ -329,7 +341,7 @@ public class ServerFake implements ServerFacade {
             }
 
         }
-        System.out.println("Size is " + toReturn.size());
+
         FeedResponse response = new FeedResponse(toReturn,remaining==0);
 
         return response;
@@ -377,14 +389,21 @@ public class ServerFake implements ServerFacade {
         User newUser = new User(req.getFirstName(),req.getLastName(),req.getUsername(),"https://pbs.twimg.com/profile_images/1305883698471018496/_4BfrCaP_400x400.jpg");
         theUsers.add(newUser);
 
-        if(theUsers.size() > 1){
+        if(theUsers.size() > 5){
+            System.out.println("Integrating!");
             FollowGenerator theGenerator = new FollowGenerator(theUsers);
             theFollows.addAll(theGenerator.generateFollows(newUser,numPeopleEveryoneFollows));
             theFollows.addAll(theGenerator.makePeopleFollow(newUser, numPeopleEveryoneFollows)) ;
+            System.out.println("The User follows" + getFollowing(new FollowingRequest(newUser,9999,null)).getUsersTheyAreFollowing().size());
 
         }
 
-        if(theTweets != null && theTweets.size() > 1){
+        if(theTweets == null){
+            generateTweets();
+            System.out.println("Now there are " + theTweets.size());
+        }
+        if(theTweets.size() > 30){
+            System.out.println("Integrating!2");
             gen = new TweetGenerator(theUsers,numTweets);
             theTweets.addAll(gen.getTweets(newUser));
         }
@@ -395,5 +414,19 @@ public class ServerFake implements ServerFacade {
     @Override
     public void registerObserver(ModelObserver obs) {
         toNotify.add(obs);
+    }
+
+    public void clearAll() {
+        theTweets = null;
+         gen = null;
+        theUsers = null;
+        theFollows = null;
+        toRemove = null;
+        toNotify = null;
+
+    }
+
+    public List<User>getAll(){
+        return theUsers;
     }
 }

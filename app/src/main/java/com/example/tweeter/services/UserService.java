@@ -9,7 +9,9 @@ public class UserService {
     public UserResponse getUser(UserRequest r){
         ServerFacade fake = new ServerFake();
         UserResponse resp = fake.getUser(r);
-        ImageService.loadImage(resp.getToRespondWith());
+        if(resp.isSuccess()) {
+            ImageService.loadImage(resp.getToRespondWith());
+        }
         return resp;
     }
 }

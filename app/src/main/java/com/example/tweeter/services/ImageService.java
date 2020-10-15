@@ -11,13 +11,23 @@ public class ImageService {
     private static Map<String,byte[]> theCache = new HashMap<>();
 
     public static void loadImage(User toLoad){
+        if(toLoad == null){
+            return;
+        }
+        if(toLoad.getImageURL() == null){
+            return;
+        }
         if(toLoad.getImageBytes() != null){
             return;
         }
+
+
         try {
             if(theCache.containsKey(toLoad.getImageURL())){
                 toLoad.setImageBytes(theCache.get(toLoad.getImageURL()));
+                return;
             }
+            System.out.println("Loading image from web");
 
             byte[] bytes = ByteArrayUtils.bytesFromUrl(toLoad.getImageURL());
             theCache.put(toLoad.getImageURL(),bytes);
