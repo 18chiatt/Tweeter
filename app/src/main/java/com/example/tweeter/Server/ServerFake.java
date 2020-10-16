@@ -140,6 +140,10 @@ public class ServerFake implements ServerFacade {
     @Override
     public LoginResponse login(LoginRequest req) {
 
+        if(theUsers.size() == 0){
+            return new LoginResponse(null,"1234",false);
+        }
+
         User res = null;
         System.out.println(req.getUserName());
         System.out.println(theUsers.size());
@@ -149,6 +153,10 @@ public class ServerFake implements ServerFacade {
                 break;
             }
 
+        }
+
+        if(res == null){
+            return new LoginResponse(null,"1234",false);
         }
 
         if(getFollowing(new FollowingRequest(res,5,null)).getUsersTheyAreFollowing().size() ==0){
@@ -386,15 +394,20 @@ public class ServerFake implements ServerFacade {
 
     @Override
     public RegisterResponse registerUser(RegisterRequest req) {
+
+
         User newUser = new User(req.getFirstName(),req.getLastName(),req.getUsername(),"https://pbs.twimg.com/profile_images/1305883698471018496/_4BfrCaP_400x400.jpg");
+
+        if(theUsers.contains(newUser)){
+            return new RegisterResponse(false);
+        }
         theUsers.add(newUser);
 
         if(theUsers.size() > 5){
-            System.out.println("Integrating!");
             FollowGenerator theGenerator = new FollowGenerator(theUsers);
             theFollows.addAll(theGenerator.generateFollows(newUser,numPeopleEveryoneFollows));
             theFollows.addAll(theGenerator.makePeopleFollow(newUser, numPeopleEveryoneFollows)) ;
-            System.out.println("The User follows" + getFollowing(new FollowingRequest(newUser,9999,null)).getUsersTheyAreFollowing().size());
+
 
         }
 
@@ -403,7 +416,6 @@ public class ServerFake implements ServerFacade {
             System.out.println("Now there are " + theTweets.size());
         }
         if(theTweets.size() > 30){
-            System.out.println("Integrating!2");
             gen = new TweetGenerator(theUsers,numTweets);
             theTweets.addAll(gen.getTweets(newUser));
         }
