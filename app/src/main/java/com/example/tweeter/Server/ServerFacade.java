@@ -37,6 +37,20 @@ public interface ServerFacade {
     PostStatusResponse postStatus(PostStatusRequest req);
     RegisterResponse registerUser(RegisterRequest req);
     void registerObserver(ModelObserver obs);
+    // remember to cleanse images when implementing this
+    //give better implementation static data of the modelObservers and call it apropriately
+    //use @expose with gson to set what gets serialized
 
 
+    //@Expose(serialize = false)
+    //private String lastName;
+    //
+    //@Expose (serialize = false, deserialize = false)
+    //private String emailAddress;
+    //
+    //
+    //
+
+    //auth tokens are dealt with by singleton at server proxy level. they'll be added to appropriate
+    //requests and scraped from appropriate responses
 }

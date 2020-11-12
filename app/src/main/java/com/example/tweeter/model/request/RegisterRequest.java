@@ -2,7 +2,9 @@ package com.example.tweeter.model.request;
 
 import android.graphics.Bitmap;
 
-public class RegisterRequest {
+import java.io.Serializable;
+
+public class RegisterRequest implements Serializable {
     public String getUsername() {
         return username;
     }
@@ -20,7 +22,7 @@ public class RegisterRequest {
     }
 
 
-    public Bitmap getImage() {
+    public byte[] getImage() {
         return image;
     }
 
@@ -28,9 +30,9 @@ public class RegisterRequest {
     private String password;
     private String firstName;
     private String lastName;
-    private Bitmap image;
+    private byte[] image;
 
-    public RegisterRequest(String username, String password, String firstName, String lastName, Bitmap image) {
+    public RegisterRequest(String username, String password, String firstName, String lastName, byte[] image) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;

@@ -52,7 +52,7 @@ public class ObserverNotificationPresenterTest {
 
         assert(observer.modelUpdated == 0);
 
-        toUse.registerObserver(observer); //observer successfully registers with server
+        toUse.registerObserver(observer,new ServerFake()); //observer successfully registers with server
         server.notifyObservers();
 
         assert(observer.modelUpdated == 1);

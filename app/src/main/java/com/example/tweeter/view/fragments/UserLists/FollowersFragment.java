@@ -40,6 +40,7 @@ public class FollowersFragment extends Fragment implements FollowersTask.Observe
     public static int USER_PER_PAGE = 6;
     private boolean hasMore = true;
     private boolean isLoading = false;
+    private User loggedInAs;
     User toGetFollowersOf;
     List<User> toDisplay;
     User previousLast;
@@ -53,8 +54,9 @@ public class FollowersFragment extends Fragment implements FollowersTask.Observe
         System.out.println("Shouldn't have called this! Use paramaterized constructor!");
     }
 
-    public FollowersFragment(User toGetOf){
+    public FollowersFragment(User toGetOf, User loggedInAs){
         RegisterObserverTask task6 = new RegisterObserverTask(new ObserverNotificationPresenter());
+        this.loggedInAs = loggedInAs;
         task6.execute(this);
         toGetFollowersOf = toGetOf;
         previousLast = null;
@@ -144,7 +146,7 @@ public class FollowersFragment extends Fragment implements FollowersTask.Observe
     public void startPersonActivity(User userToView) {
         Intent intent = new Intent(getActivity(), PersonActivity.class);
         Bundle args = new Bundle();
-        args.putSerializable(FeedFragment.LOGGED_IN_AS_KEY,toGetFollowersOf);
+        args.putSerializable(FeedFragment.LOGGED_IN_AS_KEY,loggedInAs);
         args.putSerializable(FeedFragment.TO_VIEW_KEY,userToView);
         intent.putExtras(args);
         startActivity(intent);

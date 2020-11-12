@@ -10,6 +10,7 @@ import com.example.tweeter.model.request.FollowingRequest;
 import com.example.tweeter.model.request.LoginRequest;
 import com.example.tweeter.model.request.RegisterRequest;
 import com.example.tweeter.model.request.UserRequest;
+import com.example.tweeter.services.AuthTokenHolder;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -41,14 +42,14 @@ public class FollowManipulationPresenterTest {
     @Test
     public void manipulateFollow() {
         FollowingRequest followingRequest = new FollowingRequest(user,Integer.MAX_VALUE,null);
-        FollowingResponse resp = new FollowingPresenter().getFollowing(followingRequest);
+        FollowingResponse resp = new FollowingPresenter().getFollowing(followingRequest,new ServerFake());
         List<User> originalUsers = resp.getUsersTheyAreFollowing();
         for(User u : resp.getUsersTheyAreFollowing()){
-            FollowManipulationRequest manipulationRequest = new FollowManipulationRequest(user,u,false); //show we can remove follows
-            toUse.manipulateFollow(manipulationRequest);
+            FollowManipulationRequest manipulationRequest = new FollowManipulationRequest(user,u,false, AuthTokenHolder.authToken); //show we can remove follows
+            toUse.manipulateFollow(manipulationRequest,new ServerFake());
         }
         FollowingRequest hopefullyEmptyRequest = new FollowingRequest(user,Integer.MAX_VALUE,null);
-        FollowingResponse hopefullyEmptyResponse = new FollowingPresenter().getFollowing(followingRequest);
+        FollowingResponse hopefullyEmptyResponse = new FollowingPresenter().getFollowing(followingRequest,new ServerFake());
 
         assert(hopefullyEmptyResponse.getUsersTheyAreFollowing().size() == 0);
 
@@ -57,11 +58,11 @@ public class FollowManipulationPresenterTest {
         //show we can add all follows back
 
         for(User u : originalUsers){
-            FollowManipulationRequest manipulationRequest = new FollowManipulationRequest(user,u,true);
-            toUse.manipulateFollow(manipulationRequest);
+            FollowManipulationRequest manipulationRequest = new FollowManipulationRequest(user,u,true,AuthTokenHolder.authToken);
+            toUse.manipulateFollow(manipulationRequest,new ServerFake());
         }
         FollowingRequest hopefullyOriginalRequest = new FollowingRequest(user,Integer.MAX_VALUE,null);
-        FollowingResponse hopefullyOriginal = new FollowingPresenter().getFollowing(followingRequest);
+        FollowingResponse hopefullyOriginal = new FollowingPresenter().getFollowing(followingRequest,new ServerFake());
 
         assertEquals(originalUsers,hopefullyOriginal.getUsersTheyAreFollowing());
 

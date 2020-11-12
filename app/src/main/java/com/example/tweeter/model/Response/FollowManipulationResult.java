@@ -20,6 +20,20 @@ public class FollowManipulationResult {
         return toUpdate;
     }
 
+    public void setToUpdate(List<ModelObserver> toUpdate) {
+        this.toUpdate = toUpdate;
+    }
+
+    public FollowManipulationResult(boolean isNowFollowing) {
+        this.isNowFollowing = isNowFollowing;
+    }
+
     private boolean isNowFollowing;
+
+    public boolean isWasSuccess() {
+        return wasSuccess;
+    }
+
+    private boolean wasSuccess;
     private List<ModelObserver> toUpdate;
 }

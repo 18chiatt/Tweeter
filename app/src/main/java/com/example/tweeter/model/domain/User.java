@@ -1,5 +1,7 @@
 package com.example.tweeter.model.domain;
 
+import com.google.gson.annotations.Expose;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
@@ -12,6 +14,8 @@ public class User implements Serializable {
         this.imageURL = imageURL;
     }
 
+
+
     @Override
     public String toString() {
         return "User{" +
@@ -21,12 +25,16 @@ public class User implements Serializable {
                 ", imageURL='" + imageURL + '\'' +
                 '}';
     }
-
+    @Expose(serialize = true, deserialize = true)
     private String firstName;
+    @Expose(serialize = true, deserialize = true)
     private String lastName;
+    @Expose(serialize = true, deserialize = true)
     private String userName;
+    @Expose(serialize = true, deserialize = true)
     private String imageURL;
-    private byte [] imageBytes;
+    @Expose(serialize = false, deserialize = false)
+    private  byte [] imageBytes;
 
     public String getFirstName() {
         return firstName;

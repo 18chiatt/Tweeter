@@ -28,6 +28,7 @@ import java.util.List;
 
 
 public class StoryFragment extends Fragment implements StoryTask.Observer, IntentFulfiller , PaginatedFragment, ModelObserver {
+    private User loggedInAs;
     private User theUser;
     private Status previousLast;
     private boolean isLoading;
@@ -42,9 +43,10 @@ public class StoryFragment extends Fragment implements StoryTask.Observer, Inten
         System.out.println("Used wrong constructor, noob");
     }
 
-    public StoryFragment(User u){
+    public StoryFragment(User u, User loggedInAs){
         RegisterObserverTask task6 = new RegisterObserverTask(new ObserverNotificationPresenter());
         task6.execute(this);
+        this.loggedInAs = loggedInAs;
         this.theUser = u;
         previousLast = null;
         isLoading = false;
@@ -97,7 +99,9 @@ public class StoryFragment extends Fragment implements StoryTask.Observer, Inten
 
     @Override
     public void updateModel(StoryResponse resp) {
-        if(resp.getTheStatus().size() ==0){
+        if(resp.getTheStatus().size() == 0){
+            this.hasMore = false;
+
             return;
         }
         this.previousLast = resp.getTheStatus().get(resp.getTheStatus().size()-1);
@@ -113,7 +117,7 @@ public class StoryFragment extends Fragment implements StoryTask.Observer, Inten
     public void startPersonActivity(User userToView) {
         Intent intent = new Intent(getActivity(), PersonActivity.class);
         Bundle args = new Bundle();
-        args.putSerializable(FeedFragment.LOGGED_IN_AS_KEY,theUser);
+        args.putSerializable(FeedFragment.LOGGED_IN_AS_KEY,loggedInAs);
         args.putSerializable(FeedFragment.TO_VIEW_KEY,userToView);
         intent.putExtras(args);
         startActivity(intent);

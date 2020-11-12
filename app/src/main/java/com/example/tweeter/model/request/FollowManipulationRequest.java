@@ -2,12 +2,10 @@ package com.example.tweeter.model.request;
 
 import com.example.tweeter.model.domain.User;
 
-public class FollowManipulationRequest {
-    public FollowManipulationRequest(User personWhoFollows, User personWhoIsFollowed, boolean addFollow) {
-        this.personWhoFollows = personWhoFollows;
-        this.personWhoIsFollowed = personWhoIsFollowed;
-        this.addFollow = addFollow;
-    }
+import java.io.Serializable;
+
+public class FollowManipulationRequest implements Serializable {
+
 
     public User getPersonWhoFollows() {
         return personWhoFollows;
@@ -24,4 +22,13 @@ public class FollowManipulationRequest {
     private User personWhoFollows;
     private User personWhoIsFollowed;
     private boolean addFollow;
+
+    public FollowManipulationRequest(User personWhoFollows, User personWhoIsFollowed, boolean addFollow, String authToken) {
+        this.personWhoFollows = personWhoFollows;
+        this.personWhoIsFollowed = personWhoIsFollowed;
+        this.addFollow = addFollow;
+        this.authToken = authToken;
+    }
+
+    private String authToken;
 }

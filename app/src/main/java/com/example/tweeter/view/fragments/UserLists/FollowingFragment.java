@@ -38,6 +38,7 @@ public class FollowingFragment extends Fragment implements PaginatedFragment, Fo
     public static int USER_PER_PAGE = 6;
     private boolean hasMore = true;
     private boolean isLoading = false;
+    private User loggedInAs;
     private List<User> toDisplay;
     UserRecyclerViewAdapter adapter;
 
@@ -49,9 +50,10 @@ public class FollowingFragment extends Fragment implements PaginatedFragment, Fo
         System.out.println("Shouldn't have called this! Use paramaterized constructor!");
     }
 
-    public FollowingFragment(User u){
+    public FollowingFragment(User u, User loggedInAs){
         RegisterObserverTask task6 = new RegisterObserverTask(new ObserverNotificationPresenter());
         task6.execute(this);
+        this.loggedInAs = loggedInAs;
         toDisplay = new ArrayList<>();
         toGetOf = u;
         previousLast = null;
@@ -137,7 +139,7 @@ public class FollowingFragment extends Fragment implements PaginatedFragment, Fo
     public void startPersonActivity(User userToView) {
         Intent intent = new Intent(getActivity(), PersonActivity.class);
         Bundle args = new Bundle();
-        args.putSerializable(FeedFragment.LOGGED_IN_AS_KEY,toGetOf);
+        args.putSerializable(FeedFragment.LOGGED_IN_AS_KEY,loggedInAs);
         args.putSerializable(FeedFragment.TO_VIEW_KEY,userToView);
         intent.putExtras(args);
         startActivity(intent);

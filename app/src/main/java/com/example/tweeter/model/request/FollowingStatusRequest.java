@@ -2,7 +2,9 @@ package com.example.tweeter.model.request;
 
 import com.example.tweeter.model.domain.User;
 
-public class FollowingStatusRequest {
+import java.io.Serializable;
+
+public class FollowingStatusRequest implements Serializable {
     public FollowingStatusRequest(User personWhoFollowsMaybe, User personWhoIsFollowedMaybe) {
         this.personWhoFollowsMaybe = personWhoFollowsMaybe;
         this.personWhoIsFollowedMaybe = personWhoIsFollowedMaybe;

@@ -3,7 +3,9 @@ package com.example.tweeter.model.request;
 import com.example.tweeter.model.domain.Status;
 import com.example.tweeter.model.domain.User;
 
-public class StoryRequest {
+import java.io.Serializable;
+
+public class StoryRequest implements Serializable {
     public int getMaxToGet() {
         return maxToGet;
     }

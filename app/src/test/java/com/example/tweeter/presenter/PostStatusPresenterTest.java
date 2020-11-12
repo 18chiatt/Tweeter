@@ -15,6 +15,7 @@ import com.example.tweeter.model.request.PostStatusRequest;
 import com.example.tweeter.model.request.RegisterRequest;
 import com.example.tweeter.model.request.StoryRequest;
 import com.example.tweeter.model.request.UserRequest;
+import com.example.tweeter.services.AuthTokenHolder;
 import com.example.tweeter.services.ImageService;
 
 import org.junit.Before;
@@ -45,13 +46,13 @@ public class PostStatusPresenterTest {
 
     @Test
     public void postStatus() {
-        Status theStatus = new Status("This is a new Message", Instant.now(),user);
-        PostStatusRequest req = new PostStatusRequest(theStatus);
+        Status theStatus = new Status("This is a new Message", Instant.now().getEpochSecond(),user);
+        PostStatusRequest req = new PostStatusRequest(theStatus, AuthTokenHolder.authToken);
         StoryRequest feedRequest = new StoryRequest(Integer.MAX_VALUE, user,null);
         StoryResponse feedResponse = server.getStory(feedRequest);
         assert(!feedResponse.getTheStatus().contains(theStatus)); //show this post isn't contained
 
-        toUse.postStatus(req);
+        toUse.postStatus(req,new ServerFake());
 
         feedResponse = server.getStory(feedRequest);
 

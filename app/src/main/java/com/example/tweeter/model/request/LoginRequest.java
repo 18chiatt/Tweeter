@@ -1,6 +1,8 @@
 package com.example.tweeter.model.request;
 
-public class LoginRequest {
+import java.io.Serializable;
+
+public class LoginRequest implements Serializable {
     public LoginRequest(String userName, String password) {
         this.userName = userName;
         this.password = password;

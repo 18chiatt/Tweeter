@@ -12,6 +12,7 @@ import com.example.tweeter.R;
 import com.example.tweeter.model.Response.LoginResponse;
 import com.example.tweeter.model.request.LoginRequest;
 import com.example.tweeter.presenter.LoginPresenter;
+import com.example.tweeter.services.AuthTokenHolder;
 import com.example.tweeter.view.Tasks.LoginTask;
 import com.google.android.material.tabs.TabLayout;
 
@@ -39,6 +40,7 @@ public class Login extends AppCompatActivity implements LoginTask.Observer {
         Intent intent = new Intent(this,MainActivity.class);
         Bundle extras = new Bundle();
         extras.putSerializable(LoginResponse.LOGIN_RESPONSE_KEY,loginResponse);
+        AuthTokenHolder.authToken = loginResponse.getAuthToken();
         intent.putExtras(extras);
         startActivity(intent);
 

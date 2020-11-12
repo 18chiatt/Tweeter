@@ -20,4 +20,12 @@ public class FeedResponse {
 
     private List<Status> theStatus;
     private boolean hasMore;
+
+    @Override
+    public String toString() {
+        return "FeedResponse{" +
+                "theStatus=" + theStatus +
+                ", hasMore=" + hasMore +
+                '}';
+    }
 }

@@ -1,9 +1,11 @@
 package com.example.tweeter.model.domain;
 
+import com.google.gson.annotations.Expose;
+
 import java.time.Instant;
 
 public class Status implements Comparable<Status> {
-    public Status(String message, Instant timeOfPost, User saidBy) {
+    public Status(String message, Long timeOfPost, User saidBy) {
         this.message = message;
         this.timeOfPost = timeOfPost;
         this.saidBy = saidBy;
@@ -13,7 +15,7 @@ public class Status implements Comparable<Status> {
         return message;
     }
 
-    public Instant getTimeOfPost() {
+    public Long getTimeOfPost() {
         return timeOfPost;
     }
 
@@ -25,15 +27,17 @@ public class Status implements Comparable<Status> {
                 ", timeOfPost=" + timeOfPost.toString() +
                 ", saidBy=" + saidBy +
                 '}';
-    }
 
+    }
+    @Expose(serialize = true, deserialize = true)
     private String message;
-    private Instant timeOfPost;
+    @Expose(serialize = false, deserialize = true)
+    private Long timeOfPost;
 
     public User getSaidBy() {
         return saidBy;
     }
-
+    @Expose(serialize = true, deserialize = true)
     private User saidBy;
 
 

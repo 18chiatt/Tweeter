@@ -1,6 +1,8 @@
 package com.example.tweeter.model.request;
 
-public class UserRequest {
+import java.io.Serializable;
+
+public class UserRequest implements Serializable {
     public UserRequest(String alias) {
         this.alias = alias;
     }

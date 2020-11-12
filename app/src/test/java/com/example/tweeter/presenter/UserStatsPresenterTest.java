@@ -45,7 +45,7 @@ public class UserStatsPresenterTest {
         for(User u : server.getAll()){
             index++;
             UserStatsRequest req = new UserStatsRequest(u);
-            UserStatsResponse resp = toUse.getUserStats(req);
+            UserStatsResponse resp = toUse.getUserStats(req,new ServerFake());
 
             FollowerRequest followerRequest = new FollowerRequest(u,Integer.MAX_VALUE,null);
             FollowerResponse followerResponse = server.getFollowers(followerRequest);

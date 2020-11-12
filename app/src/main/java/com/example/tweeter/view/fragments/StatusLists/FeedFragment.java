@@ -30,6 +30,7 @@ import java.util.List;
 
 public class FeedFragment extends Fragment implements PaginatedFragment, FeedTask.Observer, IntentFulfiller , ModelObserver {
     private User theUser;
+    private User loggedInAs;
     private Status previousLast;
     private boolean isLoading;
     private boolean hasMore;
@@ -48,9 +49,10 @@ public class FeedFragment extends Fragment implements PaginatedFragment, FeedTas
         System.out.println(crasher.length());
     }
 
-    public FeedFragment(User theUser){
+    public FeedFragment(User theUser, User loggedInAs){
         this.toDisplay = new ArrayList<>();
         RegisterObserverTask task6 = new RegisterObserverTask(new ObserverNotificationPresenter());
+        this.loggedInAs = loggedInAs;
         task6.execute(this);
         this.theUser = theUser;
     }
@@ -98,6 +100,7 @@ public class FeedFragment extends Fragment implements PaginatedFragment, FeedTas
 
     @Override
     public void loadMore() {
+        this.isLoading = true;
         FeedRequest request = new FeedRequest(theUser,numStatusPerPage,previousLast);
         FeedTask task = new FeedTask(this,new FeedPresenter());
         task.execute(request);
@@ -106,9 +109,16 @@ public class FeedFragment extends Fragment implements PaginatedFragment, FeedTas
 
     @Override
     public void updateModel(FeedResponse resp) {
+
         this.toDisplay.addAll(resp.getTheStatus());
-        this.previousLast = resp.getTheStatus().get(resp.getTheStatus().size()-1);
-        hasMore = resp.isHasMore();
+        if(resp.getTheStatus().size() > 0) {
+            this.previousLast = resp.getTheStatus().get(resp.getTheStatus().size() - 1);
+            hasMore = resp.isHasMore();
+        }
+        else {
+            this.hasMore = false;
+        }
+
         adapter.updateStuff(resp.getTheStatus());
         adapter.notifyDataSetChanged();
         isLoading = false;
@@ -118,11 +128,14 @@ public class FeedFragment extends Fragment implements PaginatedFragment, FeedTas
     public void startPersonActivity(User userToView) {
         Intent intent = new Intent(getActivity(), PersonActivity.class);
         Bundle args = new Bundle();
-        args.putSerializable(LOGGED_IN_AS_KEY,theUser);
+
+        args.putSerializable(LOGGED_IN_AS_KEY,loggedInAs);
         args.putSerializable(TO_VIEW_KEY,userToView);
         intent.putExtras(args);
         startActivity(intent);
     }
+
+
 
     @Override
     public void modelUpdated() {

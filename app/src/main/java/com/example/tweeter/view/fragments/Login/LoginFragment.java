@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tweeter.R;
@@ -22,10 +23,15 @@ import com.example.tweeter.view.MainActivity;
 import com.example.tweeter.view.Tasks.LoginTask;
 
 
-public class LoginFragment extends Fragment implements LoginTask.Observer{
+public class LoginFragment extends Fragment implements LoginTask.Observer {
+    private static final String[] endPoints = {"/Feed","/Follower","/Following","/FollowingStatus","/FollowManipulation","/Login","/PostStatus","/Register","/Story","/User","/UserStats"};
+
     EditText username;
     EditText password;
     Button submit;
+    Button heater;
+    TextView heaterOutput;
+    int count = 0;
     private static EditText[] list;
 
     public LoginFragment() {
@@ -82,6 +88,8 @@ public class LoginFragment extends Fragment implements LoginTask.Observer{
 
         }
 
+
+
         submit.setOnClickListener((c)-> {
             String usernameString = username.getText().toString();
             String passwordString = password.getText().toString();
@@ -90,6 +98,8 @@ public class LoginFragment extends Fragment implements LoginTask.Observer{
             task.execute(req);
 
         });
+
+
 
         return view;
     }
@@ -114,4 +124,6 @@ public class LoginFragment extends Fragment implements LoginTask.Observer{
     public void handleException(Exception ex) {
 
     }
+
+
 }

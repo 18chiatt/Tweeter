@@ -37,14 +37,14 @@ public class UserPresenterTest {
     public void getUser() {
         for(User u : server.getAll()){
             UserRequest req = new UserRequest(u.getUserName());
-            UserResponse resp = toUse.getUser(req);
+            UserResponse resp = toUse.getUser(req,new ServerFake());
             assertEquals(u,resp.getToRespondWith());
         }
 
         for(int i=0; i< 1000; i++){
             User nonExistingUser = UserGenerator.getUser();
             UserRequest badRequest = new UserRequest(nonExistingUser.getUserName());
-            UserResponse badResponseHopefully = toUse.getUser(badRequest);
+            UserResponse badResponseHopefully = toUse.getUser(badRequest,new ServerFake());
             assert(badResponseHopefully.isSuccess() == false);
         }
     }

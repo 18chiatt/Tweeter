@@ -44,15 +44,22 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 public class ServerFake implements ServerFacade {
-    private final int numPeopleToGenerate = 200;
-    private final int numPeopleEveryoneFollows = 20;
-    private final int numTweets = 10;
+    private final int numPeopleToGenerate = 45;
+    private final int numPeopleEveryoneFollows = 5;
+    private final int numTweets = 5;
     private static SortedSet<Status> theTweets;
-    private TweetGenerator gen;
+    private static TweetGenerator gen;
     private static List<User> theUsers;
     private static List<Follow> theFollows;
     private static Follow toRemove;
     private static List<ModelObserver> toNotify;
+
+
+    private SortedSet<Status> theTweetsLocal;
+    private  List<User> theUsersLocal;
+    private  List<Follow> theFollowsLocal;
+
+
 
 
 
@@ -68,6 +75,7 @@ public class ServerFake implements ServerFacade {
             for (int i = 0; i< numPeopleToGenerate; i++){
                 theUsers.add(UserGenerator.getUser());
             }
+            generateFollows();
         }
 
         if(theFollows == null){
@@ -81,6 +89,9 @@ public class ServerFake implements ServerFacade {
             theFollows.remove(toRemove);
             toRemove = null;
         }
+        this.theFollowsLocal = theFollows;
+        this.theUsersLocal = theUsers;
+        this.theTweetsLocal = theTweets;
 
     }
 
@@ -166,6 +177,7 @@ public class ServerFake implements ServerFacade {
 
             gen = new TweetGenerator(theUsers,numTweets);
             theTweets.addAll(gen.getTweets(res));
+
         }
 
         if(res == null){
@@ -178,6 +190,7 @@ public class ServerFake implements ServerFacade {
         if(theTweets == null || theTweets.size() < 300){
             generateTweets();
         }
+        theTweetsLocal = theTweets;
 
         return new LoginResponse(res,"1234",true);
     }
@@ -350,9 +363,7 @@ public class ServerFake implements ServerFacade {
 
         }
 
-        FeedResponse response = new FeedResponse(toReturn,remaining==0);
-
-        return response;
+        return new FeedResponse(toReturn,remaining==0);
 
     }
 

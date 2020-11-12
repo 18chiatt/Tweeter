@@ -36,7 +36,7 @@ public class RegisterServiceTest {
         assert(server.getUser(userRequest).isSuccess() == false); //user is not found prior to registration
 
 
-        toUse.register(new RegisterRequest("Dank","Password","Chase","Hiatt", null));
+        toUse.register(new RegisterRequest("Dank","Password","Chase","Hiatt", null),new ServerFake());
         server.login(new LoginRequest("Dank","Man"));
         user = server.getUser(new UserRequest("Dank")).getToRespondWith();
 
@@ -45,7 +45,7 @@ public class RegisterServiceTest {
 
         assert(server.getUser(new UserRequest("Epic")).isSuccess() == false);
 
-        toUse.register(new RegisterRequest("Epic","Password","Epic","Cookie",null)); //multiple users can be registered
+        toUse.register(new RegisterRequest("Epic","Password","Epic","Cookie",null),new ServerFake()); //multiple users can be registered
 
         assert(server.getUser(new UserRequest("Epic")).isSuccess() == true);
 
@@ -54,7 +54,7 @@ public class RegisterServiceTest {
         for(int i=0; i< 1000; i++){ //show we can register 1000 random users
             User newUser = UserGenerator.getUser();
             assert(server.getUser(new UserRequest(newUser.getUserName())).isSuccess() == false);
-            toUse.register(new RegisterRequest(newUser.getUserName(),"ASDF",newUser.getFirstName(),newUser.getLastName(),null));
+            toUse.register(new RegisterRequest(newUser.getUserName(),"ASDF",newUser.getFirstName(),newUser.getLastName(),null),new ServerFake());
             assert(server.getUser(new UserRequest(newUser.getUserName())).isSuccess() == true);
         }
 

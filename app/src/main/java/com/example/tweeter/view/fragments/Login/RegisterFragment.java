@@ -33,6 +33,8 @@ import com.example.tweeter.view.MainActivity;
 import com.example.tweeter.view.Tasks.LoginTask;
 import com.example.tweeter.view.Tasks.RegisterTask;
 
+import java.nio.BufferUnderflowException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -132,7 +134,20 @@ public class RegisterFragment extends Fragment implements  RegisterTask.Observer
             String lastNameString = lastName.getText().toString();
 
 
-            RegisterRequest request = new RegisterRequest(aliasString,passwordString,firstNameString,lastNameString,newProfilePicture);
+            int size     = newProfilePicture.getRowBytes() * newProfilePicture.getHeight();
+            ByteBuffer b = ByteBuffer.allocate(size);
+
+            newProfilePicture.copyPixelsToBuffer(b);
+
+            byte[] bytes = new byte[size];
+
+            try {
+                b.get(bytes, 0, bytes.length);
+            } catch (BufferUnderflowException e) {
+                // always happens
+            }
+
+            RegisterRequest request = new RegisterRequest(aliasString,passwordString,firstNameString,lastNameString,bytes);
             RegisterTask task = new RegisterTask(this,new RegisterPresenter());
             task.execute(request);
 

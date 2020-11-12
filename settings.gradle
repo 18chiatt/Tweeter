@@ -1,2 +1,4 @@
+include ':lib'
+include ':libModel'
 include ':app'
 rootProject.name = "Tweeter"

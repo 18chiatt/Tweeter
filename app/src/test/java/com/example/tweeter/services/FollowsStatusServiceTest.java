@@ -43,13 +43,13 @@ public class FollowsStatusServiceTest {
 
         for(User u : allusers){
             FollowingRequest req = new FollowingRequest(u,Integer.MAX_VALUE,null);
-            FollowingResponse resp = followingService.getFollowing(req);
+            FollowingResponse resp = followingService.getFollowing(req,new ServerFake());
             if(resp.getUsersTheyAreFollowing().contains(user)){
                 FollowingStatusRequest request2 = new FollowingStatusRequest(u,user);
-                assert(toUse.getFollowsStatus(request2).isFollows());
+                assert(toUse.getFollowsStatus(request2,new ServerFake()).isFollows());
             } else {
                 FollowingStatusRequest request2 = new FollowingStatusRequest(u,user);
-                assert(!toUse.getFollowsStatus(request2).isFollows());
+                assert(!toUse.getFollowsStatus(request2,new ServerFake()).isFollows());
             }
 
         }

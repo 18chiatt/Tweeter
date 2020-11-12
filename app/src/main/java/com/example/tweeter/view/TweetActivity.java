@@ -16,6 +16,7 @@ import com.example.tweeter.model.domain.Status;
 import com.example.tweeter.model.domain.User;
 import com.example.tweeter.model.request.PostStatusRequest;
 import com.example.tweeter.presenter.PostStatusPresenter;
+import com.example.tweeter.services.AuthTokenHolder;
 import com.example.tweeter.view.Tasks.PostStatusTask;
 import com.example.tweeter.view.util.ImageUtils;
 
@@ -80,8 +81,8 @@ public class TweetActivity extends AppCompatActivity implements PostStatusTask.O
         });
 
         submit.setOnClickListener((c)-> {
-            Status toPost = new Status(entry.getText().toString(), Instant.now(),loggedInAs);
-            PostStatusRequest req = new PostStatusRequest(toPost);
+            Status toPost = new Status(entry.getText().toString(), Instant.now().getEpochSecond(),loggedInAs);
+            PostStatusRequest req = new PostStatusRequest(toPost, AuthTokenHolder.authToken);
             PostStatusTask task = new PostStatusTask(new PostStatusPresenter(),this);
             task.execute(req);
         });

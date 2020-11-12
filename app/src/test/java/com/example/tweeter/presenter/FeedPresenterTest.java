@@ -42,15 +42,15 @@ public class FeedPresenterTest {
     @Test
     public void getFeed() {
         FeedRequest req = new FeedRequest(user,6,null);
-        FeedResponse resp =  toUse.getFeed(req);
+        FeedResponse resp =  toUse.getFeed(req,new ServerFake());
         List<Status> allStatus = new ArrayList<>();
         List<Status> iterativelyBuilt = new ArrayList<>();
-        allStatus.addAll(toUse.getFeed(new FeedRequest(user,999999,null)).getTheStatus());
+        allStatus.addAll(toUse.getFeed(new FeedRequest(user,999999,null),new ServerFake()).getTheStatus());
         assert(resp.getTheStatus().size() <= 6);
         iterativelyBuilt.addAll(resp.getTheStatus());
 
         while(resp.isHasMore()){
-            resp = toUse.getFeed(new FeedRequest(user,5,resp.getTheStatus().get(resp.getTheStatus().size()-1)));
+            resp = toUse.getFeed(new FeedRequest(user,5,resp.getTheStatus().get(resp.getTheStatus().size()-1)),new ServerFake());
 
             for(Status s : resp.getTheStatus()){
 

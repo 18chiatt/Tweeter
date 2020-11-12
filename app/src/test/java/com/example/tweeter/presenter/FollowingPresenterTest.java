@@ -41,13 +41,13 @@ public class FollowingPresenterTest {
     @Test
     public void getFollowing() {
         FollowingRequest req = new FollowingRequest(user,Integer.MAX_VALUE,null);
-        FollowingResponse allFollowing = toUse.getFollowing(req);
+        FollowingResponse allFollowing = toUse.getFollowing(req,new ServerFake());
         List<User> allAtOnce = new ArrayList<>(allFollowing.getUsersTheyAreFollowing());
         assert(allFollowing.getUsersTheyAreFollowing().size() > 1);
 
         for(User u : allFollowing.getUsersTheyAreFollowing()){ //check if everyone they are following has them as follower
             FollowerRequest commutativeCheck = new FollowerRequest(u,Integer.MAX_VALUE,null);
-            List<User> theUsersThePersonIsFollowing = new FollowersPresenter().getFollowers(commutativeCheck).getFollowers();
+            List<User> theUsersThePersonIsFollowing = new FollowersPresenter().getFollowers(commutativeCheck,new ServerFake()).getFollowers();
             assert(theUsersThePersonIsFollowing.contains(user));
 
         }
@@ -55,12 +55,12 @@ public class FollowingPresenterTest {
         //check paginated results
         List<User> iterativeFollowing = new ArrayList<>();
         FollowingRequest iterativeRequest = new FollowingRequest(user,1,null);
-        FollowingResponse iterativeResponse = toUse.getFollowing(iterativeRequest);
+        FollowingResponse iterativeResponse = toUse.getFollowing(iterativeRequest,new ServerFake());
         iterativeFollowing.addAll(iterativeResponse.getUsersTheyAreFollowing());
 
         while(iterativeResponse.hasMore()){
            iterativeRequest = new FollowingRequest(user,1,iterativeFollowing.get(iterativeFollowing.size()-1));
-            iterativeResponse = toUse.getFollowing(iterativeRequest);
+            iterativeResponse = toUse.getFollowing(iterativeRequest,new ServerFake());
             iterativeFollowing.addAll(iterativeResponse.getUsersTheyAreFollowing());
         }
 

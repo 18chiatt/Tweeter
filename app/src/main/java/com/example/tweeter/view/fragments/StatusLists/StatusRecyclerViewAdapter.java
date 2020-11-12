@@ -22,6 +22,7 @@ import com.example.tweeter.presenter.ObserverNotificationPresenter;
 import com.example.tweeter.view.Tasks.RegisterObserverTask;
 import com.example.tweeter.view.util.ImageUtils;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -70,7 +71,7 @@ public class StatusRecyclerViewAdapter extends RecyclerView.Adapter<StatusRecycl
         User saidBy = toBind.getSaidBy();
         holder.profilePic .setImageDrawable(ImageUtils.drawableFromByteArray(saidBy.getImageBytes()));
         holder.firstLastname.setText(saidBy.getFirstName() + " " + saidBy.getLastName());
-        holder.alias.setText(saidBy.getUserName());
+        holder.alias.setText("@" +saidBy.getUserName());
         holder.layout.setOnClickListener((c)-> {
             fulfiller.startPersonActivity(saidBy);
         });
@@ -79,7 +80,9 @@ public class StatusRecyclerViewAdapter extends RecyclerView.Adapter<StatusRecycl
         ss = setLinkSpans(toBind.getMessage(),ss,context);
         holder.tweetMessage.setMovementMethod(LinkMovementMethod.getInstance());
         holder.tweetMessage.setText(ss);
-        holder.dateTime.setText( toBind.getTimeOfPost().toString());
+
+        String dateTime = (Instant.ofEpochSecond(toBind.getTimeOfPost())).toString();
+        holder.dateTime.setText( dateTime);
     }
 
     @Override

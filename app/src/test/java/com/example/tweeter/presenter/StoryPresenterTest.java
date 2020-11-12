@@ -46,7 +46,7 @@ public class StoryPresenterTest {
     @Test
     public void getStory() {
         StoryRequest req = new StoryRequest(Integer.MAX_VALUE,user,null);
-        StoryResponse resp = toUse.getStory(req);
+        StoryResponse resp = toUse.getStory(req,new ServerFake());
         Set<String> messages = new TreeSet<>();
 
         for(Status s : resp.getTheStatus()){
@@ -59,12 +59,12 @@ public class StoryPresenterTest {
         List<Status> paginatedMessages = new ArrayList<>();
 
         StoryRequest paginated = new StoryRequest(1,user,null);
-        StoryResponse paginatedResponse = toUse.getStory(paginated);
+        StoryResponse paginatedResponse = toUse.getStory(paginated,new ServerFake());
         paginatedMessages.addAll(paginatedResponse.getTheStatus());
 
         while(paginatedResponse.isHasMore()){
             paginated = new StoryRequest(1,user,paginatedMessages.get(paginatedMessages.size()-1));
-            paginatedResponse = toUse.getStory(paginated);
+            paginatedResponse = toUse.getStory(paginated,new ServerFake());
             paginatedMessages.addAll(paginatedResponse.getTheStatus());
         }
 

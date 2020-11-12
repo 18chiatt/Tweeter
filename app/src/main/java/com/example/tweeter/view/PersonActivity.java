@@ -16,6 +16,7 @@ import com.example.tweeter.presenter.FollowingStatusPresenter;
 import com.example.tweeter.presenter.ObserverNotificationPresenter;
 import com.example.tweeter.presenter.UserStatsPresenter;
 import com.example.tweeter.presenter.FollowManipulationPresenter;
+import com.example.tweeter.services.AuthTokenHolder;
 import com.example.tweeter.view.Tasks.FollowManipulationTask;
 import com.example.tweeter.view.Tasks.FollowingStatusTask;
 import com.example.tweeter.view.Tasks.RegisterObserverTask;
@@ -30,6 +31,8 @@ import androidx.viewpager.widget.ViewPager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import static com.example.tweeter.view.fragments.StatusLists.FeedFragment.LOGGED_IN_AS_KEY;
 
 public class PersonActivity extends AppCompatActivity implements UserStatsTask.Observer, FollowingStatusTask.Observer, FollowManipulationTask.Observer, ModelObserver {
     private TextView firstLastName;
@@ -55,7 +58,9 @@ public class PersonActivity extends AppCompatActivity implements UserStatsTask.O
         //need a user who is logged in, the user who is selected
         Intent intent = getIntent();
         Bundle args = intent.getExtras();
-        loggedInAs = (User)args.getSerializable(FeedFragment.LOGGED_IN_AS_KEY);
+        loggedInAs = (User)args.getSerializable(LOGGED_IN_AS_KEY);
+        System.out.println(loggedInAs + " is person logged in !");
+
         viewing = (User) args.getSerializable(FeedFragment.TO_VIEW_KEY);
 
         firstLastName = findViewById(R.id.person_firstLastName);
@@ -77,7 +82,7 @@ public class PersonActivity extends AppCompatActivity implements UserStatsTask.O
         pager = findViewById(R.id.person_viewPager);
         PersonPagerAdapter adapter = new PersonPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(adapter);
-        adapter.setUser(viewing);
+        adapter.setUser(viewing,loggedInAs);
         tabs.setupWithViewPager(pager);
         FollowingStatusTask theTask = new FollowingStatusTask(this,new FollowingStatusPresenter());
         FollowingStatusRequest request = new FollowingStatusRequest(loggedInAs,viewing);
@@ -99,14 +104,14 @@ public class PersonActivity extends AppCompatActivity implements UserStatsTask.O
             followButton.setText("Following");
             followButton.setOnClickListener((c) -> {
                 FollowManipulationTask task = new FollowManipulationTask(new FollowManipulationPresenter(),this);
-                FollowManipulationRequest req = new FollowManipulationRequest(loggedInAs,viewing,false);
+                FollowManipulationRequest req = new FollowManipulationRequest(loggedInAs,viewing,false, AuthTokenHolder.authToken);
                 task.execute(req);
             });
         } else {
             followButton.setText("Not Following");
             followButton.setOnClickListener((c) -> {
                 FollowManipulationTask task = new FollowManipulationTask(new FollowManipulationPresenter(),this);
-                FollowManipulationRequest req = new FollowManipulationRequest(loggedInAs,viewing,true);
+                FollowManipulationRequest req = new FollowManipulationRequest(loggedInAs,viewing,true,AuthTokenHolder.authToken);
                 task.execute(req);
             });
 

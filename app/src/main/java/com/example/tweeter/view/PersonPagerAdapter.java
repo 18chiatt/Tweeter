@@ -16,6 +16,7 @@ import com.example.tweeter.view.fragments.StatusLists.StoryFragment;
 
 public class PersonPagerAdapter extends FragmentStatePagerAdapter {
     private User theUser;
+    private User loggedInAs;
 
     final int pageCount = 3;
     private String[] tabTitles = new String[]{"Story","Following","Followers"};
@@ -24,8 +25,9 @@ public class PersonPagerAdapter extends FragmentStatePagerAdapter {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
     }
 
-    public void setUser(User toSet){
+    public void setUser(User toSet, User loggedInAs){
         this.theUser = toSet;
+        this.loggedInAs = loggedInAs;
     }
 
     @NonNull
@@ -33,11 +35,11 @@ public class PersonPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch(position){
             case 0:
-                return new StoryFragment(theUser);
+                return new StoryFragment(theUser,loggedInAs);
             case 1:
-                return new FollowingFragment(theUser);
+                return new FollowingFragment(theUser,loggedInAs);
             case 2:
-                return new FollowersFragment(theUser);
+                return new FollowersFragment(theUser,loggedInAs);
 
         }
         System.out.println("SOmething went very wrong!!!!");

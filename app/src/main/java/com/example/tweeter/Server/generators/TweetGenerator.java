@@ -33,7 +33,7 @@ public class TweetGenerator {
     public SortedSet<Status> getTweets(User u){
         SortedSet<Status> toReturn = new TreeSet<>();
         for(int i = 0; i< numTweets; i++){
-            Status toAdd = new Status(generateTweet(), generateTime(),u);
+            Status toAdd = new Status(generateTweet(), generateTime().getEpochSecond(),u);
             toReturn.add(toAdd);
 
         }

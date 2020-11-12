@@ -43,7 +43,7 @@ public class FollowersPresenterTest {
     @Test
     public void getFollowers() {
         FollowerRequest req = new FollowerRequest(user,Integer.MAX_VALUE,null);
-        FollowerResponse resp = toUse.getFollowers(req);
+        FollowerResponse resp = toUse.getFollowers(req,new ServerFake());
 
         List<User> allAtOnce = new ArrayList<>(resp.getFollowers());
         List<User> iterative = new ArrayList<>();
@@ -52,16 +52,16 @@ public class FollowersPresenterTest {
 
         for(User u : resp.getFollowers()){ //check if everyone who follows is actually following
             FollowingRequest checkIfFollows = new FollowingRequest(u,Integer.MAX_VALUE,null);
-            FollowingResponse response = following.getFollowing(checkIfFollows);
+            FollowingResponse response = following.getFollowing(checkIfFollows,new ServerFake());
             assert(response .getUsersTheyAreFollowing().contains(user));
         }
 
         FollowerRequest newRequest = new FollowerRequest(user,1,null); //check if paginated results works properly
-        FollowerResponse newReponse = toUse.getFollowers(newRequest);
+        FollowerResponse newReponse = toUse.getFollowers(newRequest,new ServerFake());
         iterative.addAll(newReponse.getFollowers());
         while(newReponse.hasMore()){
             newRequest = new FollowerRequest(user,1,newReponse.getFollowers().get(0));
-            newReponse = toUse.getFollowers(newRequest);
+            newReponse = toUse.getFollowers(newRequest,new ServerFake());
             assert(newReponse.getFollowers().size() <= 1);
             iterative.addAll(newReponse.getFollowers());
         }

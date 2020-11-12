@@ -31,13 +31,13 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch(position){
             case 0:
-                return new FeedFragment(theUser);
+                return new FeedFragment(theUser, theUser);
             case 1:
-                return new StoryFragment(theUser);
+                return new StoryFragment(theUser, theUser);
             case 2:
-                return new FollowingFragment(theUser);
+                return new FollowingFragment(theUser,theUser);
             case 3:
-                return new FollowersFragment(theUser);
+                return new FollowersFragment(theUser,theUser);
 
         }
         System.out.println("SOmething went very wrong!!!!");

@@ -3,7 +3,7 @@ package com.example.tweeter.model.Response;
 public class UserStatsResponse {
     public UserStatsResponse(int numFollowers, int numPeopleTheyAreFollowing) {
         this.numFollowers = numFollowers;
-        this.numPeopleFollowing = numPeopleTheyAreFollowing;
+        this.numPeopleTheyAreFollowing = numPeopleTheyAreFollowing;
     }
 
     public int getNumFollowers() {
@@ -11,11 +11,11 @@ public class UserStatsResponse {
     }
 
     public int getNumPeopleTheyAreFollowing() {
-        return numPeopleFollowing;
+        return numPeopleTheyAreFollowing;
     }
 
     private int numFollowers;
-    private int numPeopleFollowing;
+    private int numPeopleTheyAreFollowing;
 
 
 }

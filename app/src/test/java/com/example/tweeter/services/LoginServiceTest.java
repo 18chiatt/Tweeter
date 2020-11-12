@@ -33,11 +33,11 @@ public class LoginServiceTest {
     @Test
     public void login() {
         LoginRequest req = new LoginRequest("Dank","Password");
-        assert(toUse.login(req).isSuccess());
-        assert(toUse.login(req).getLoggedInAs().equals(user));
+        assert(toUse.login(req,new ServerFake()).isSuccess());
+        assert(toUse.login(req,new ServerFake()).getLoggedInAs().equals(user));
 
         req = new LoginRequest("UNKNOWN","lol");
-        assert(!toUse.login(req).isSuccess());
+        assert(!toUse.login(req,new ServerFake()).isSuccess());
 
         server.clearAll();
         server = new ServerFake();
@@ -46,7 +46,7 @@ public class LoginServiceTest {
         server.registerUser(new RegisterRequest("UNKNOWN","lol","Chase","Hiatt", null));
         server.login(new LoginRequest("UNKNOWN","lol"));
 
-        assert(toUse.login(req).isSuccess());
+        assert(toUse.login(req,new ServerFake()).isSuccess());
 
 
 

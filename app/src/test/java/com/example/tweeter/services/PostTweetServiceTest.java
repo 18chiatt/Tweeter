@@ -44,13 +44,13 @@ public class PostTweetServiceTest {
 
     @Test
     public void postStatus() {
-        Status theStatus = new Status("This is a new Message", Instant.now(),user);
-        PostStatusRequest req = new PostStatusRequest(theStatus);
+        Status theStatus = new Status("This is a new Message", Instant.now().getEpochSecond(),user);
+        PostStatusRequest req = new PostStatusRequest(theStatus,AuthTokenHolder.authToken);
         StoryRequest feedRequest = new StoryRequest(Integer.MAX_VALUE, user,null);
         StoryResponse feedResponse = server.getStory(feedRequest);
         assert(!feedResponse.getTheStatus().contains(theStatus)); //show this post isn't contained
 
-        toUse.postTweet(req);
+        toUse.postTweet(req,new ServerFake());
 
         feedResponse = server.getStory(feedRequest);
 

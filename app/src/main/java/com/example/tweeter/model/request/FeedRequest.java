@@ -3,7 +3,9 @@ package com.example.tweeter.model.request;
 import com.example.tweeter.model.domain.Status;
 import com.example.tweeter.model.domain.User;
 
-public class FeedRequest {
+import java.io.Serializable;
+
+public class FeedRequest implements Serializable {
     public FeedRequest(User toGetFeedOf, int maxToGet, Status previousLast) {
         this.toGetFeedOf = toGetFeedOf;
         this.maxToGet = maxToGet;

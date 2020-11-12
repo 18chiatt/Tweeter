@@ -2,7 +2,9 @@ package com.example.tweeter.model.request;
 
 import com.example.tweeter.model.domain.User;
 
-public class FollowerRequest {
+import java.io.Serializable;
+
+public class FollowerRequest implements Serializable {
     public FollowerRequest(User whoTheyFollow, int maxToGet, User lastOneGotten) {
         this.whoTheyFollow = whoTheyFollow;
         this.maxToGet = maxToGet;
