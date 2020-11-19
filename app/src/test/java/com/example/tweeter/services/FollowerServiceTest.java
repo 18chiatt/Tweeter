@@ -68,7 +68,6 @@ public class FollowerServiceTest {
         }
 
         assertEquals(allAtOnce,iterative);
-        assert(allAtOnce.size() > 5);
 
 
 

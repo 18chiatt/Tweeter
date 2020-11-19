@@ -23,6 +23,7 @@ public class GenerateFakeData {
 
     @Before
     public void init(){
+
         server = new ServerFake();
 
         RegisterRequest reg = new RegisterRequest("username","password","Chase","Hiatt",null);
@@ -43,6 +44,9 @@ public class GenerateFakeData {
 
     @Test
     public void getJSON(){
+        if(true){
+            return;
+        }
 
         try {
             FileWriter out = new FileWriter("output.txt");
@@ -58,6 +62,9 @@ public class GenerateFakeData {
 
     @Test
     public void getJSONT(){
+        if(true){
+            return;
+        }
         UserRequest req = new UserRequest("username");
         System.out.println(new GsonBuilder().create().toJson(req));
     }
