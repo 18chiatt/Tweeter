@@ -30,9 +30,10 @@ public class FollowManipulationTask extends AsyncTask<FollowManipulationRequest,
     @Override
     protected void onPostExecute(Integer integer) {
         super.onPostExecute(integer);
+        toCall.setResults(toReturn);
         for(ModelObserver o : toReturn.getToUpdate()){
             o.modelUpdated();
         }
-        toCall.setResults(toReturn);
+
     }
 }

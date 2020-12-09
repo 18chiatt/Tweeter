@@ -125,7 +125,9 @@ public class ServerProxy implements ServerFacade { //do the requesting/decoding 
     @Override
     public PostStatusResponse postStatus(PostStatusRequest req) {
         String path = "/PostStatus";
+        System.out.println(gson.toJson(req));
         String response = sendAsJSON(req,path);
+
         PostStatusResponse resp = gson.fromJson(response,PostStatusResponse.class);
         resp.setToUpdate(toNotify);
         return resp;

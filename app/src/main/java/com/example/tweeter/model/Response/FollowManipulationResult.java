@@ -8,11 +8,11 @@ public class FollowManipulationResult {
 
 
     public boolean isNowFollowing() {
-        return isNowFollowing;
+        return nowFollowing;
     }
 
     public FollowManipulationResult(boolean isNowFollowing, List<ModelObserver> toUpdate) {
-        this.isNowFollowing = isNowFollowing;
+        this.nowFollowing = isNowFollowing;
         this.toUpdate = toUpdate;
     }
 
@@ -25,15 +25,15 @@ public class FollowManipulationResult {
     }
 
     public FollowManipulationResult(boolean isNowFollowing) {
-        this.isNowFollowing = isNowFollowing;
+        this.nowFollowing = isNowFollowing;
     }
 
-    private boolean isNowFollowing;
 
     public boolean isWasSuccess() {
         return wasSuccess;
     }
 
     private boolean wasSuccess;
+    private boolean nowFollowing;
     private List<ModelObserver> toUpdate;
 }

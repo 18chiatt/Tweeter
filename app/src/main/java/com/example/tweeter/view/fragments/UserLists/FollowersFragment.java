@@ -1,6 +1,7 @@
 package com.example.tweeter.view.fragments.UserLists;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -65,7 +66,7 @@ public class FollowersFragment extends Fragment implements FollowersTask.Observe
         task.setObserver(this,new FollowersPresenter());
         FollowerRequest req =  new FollowerRequest(toGetFollowersOf,USER_PER_PAGE,previousLast);
         this.isLoading = true;
-        task.execute(req);
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,req);
     }
 
 
@@ -128,7 +129,7 @@ public class FollowersFragment extends Fragment implements FollowersTask.Observe
         FollowerRequest req =  new FollowerRequest(toGetFollowersOf,USER_PER_PAGE,previousLast);
         this.isLoading = true;
         System.out.println(req);
-        task.execute(req);
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,req);
     }
 
 

@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -33,9 +34,11 @@ import com.example.tweeter.view.MainActivity;
 import com.example.tweeter.view.Tasks.LoginTask;
 import com.example.tweeter.view.Tasks.RegisterTask;
 
+import java.io.ByteArrayOutputStream;
 import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import static android.app.Activity.RESULT_CANCELED;
@@ -134,22 +137,18 @@ public class RegisterFragment extends Fragment implements  RegisterTask.Observer
             String lastNameString = lastName.getText().toString();
 
 
-            int size     = newProfilePicture.getRowBytes() * newProfilePicture.getHeight();
-            ByteBuffer b = ByteBuffer.allocate(size);
 
-            newProfilePicture.copyPixelsToBuffer(b);
+            Bitmap bmp = newProfilePicture;
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
 
-            byte[] bytes = new byte[size];
-
-            try {
-                b.get(bytes, 0, bytes.length);
-            } catch (BufferUnderflowException e) {
-                // always happens
-            }
-
-            RegisterRequest request = new RegisterRequest(aliasString,passwordString,firstNameString,lastNameString,bytes);
+            String baseSixFour =  Base64.getEncoder().encodeToString(byteArray);
+            System.out.println(baseSixFour);
+            RegisterRequest request = new RegisterRequest(aliasString,passwordString,firstNameString,lastNameString,baseSixFour);
+            System.out.println(byteArray);
             RegisterTask task = new RegisterTask(this,new RegisterPresenter());
-            task.execute(request);
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,request);
 
 
         });
@@ -258,10 +257,20 @@ public class RegisterFragment extends Fragment implements  RegisterTask.Observer
     @Override
     public void success() {
         LoginTask task = new LoginTask(new LoginPresenter(),this);
+        Context context = getContext();
+        CharSequence text = "Registered successfully, logging in";
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
+
+
         String userNameString = alias.getText().toString();
-        String passwordString = alias.getText().toString();
+        String passwordString = password.getText().toString();
         LoginRequest request = new LoginRequest(userNameString,passwordString);
-        task.execute(request);
+
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,request);
+
     }
 
     @Override

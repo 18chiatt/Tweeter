@@ -6,13 +6,13 @@ public class FollowManipulationDTO {
 
 
     public boolean isNowFollowing() {
-        return isNowFollowing;
+        return nowFollowing;
     }
 
 
     public FollowManipulationDTO( boolean isNowFollowing,boolean wasSuccess) {
         this.wasSuccess = wasSuccess;
-        this.isNowFollowing = isNowFollowing;
+        this.nowFollowing = isNowFollowing;
     }
 
     public boolean isWasSuccess() {
@@ -20,6 +20,6 @@ public class FollowManipulationDTO {
     }
 
     private boolean wasSuccess;
-    private boolean isNowFollowing;
+    private boolean nowFollowing;
 
 }

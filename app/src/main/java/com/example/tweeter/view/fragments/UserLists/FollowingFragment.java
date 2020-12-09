@@ -1,6 +1,7 @@
 package com.example.tweeter.view.fragments.UserLists;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -61,7 +62,7 @@ public class FollowingFragment extends Fragment implements PaginatedFragment, Fo
         FollowingTask task = new FollowingTask(this,presenter);
         FollowingRequest req = new FollowingRequest(toGetOf,USER_PER_PAGE,previousLast);
         this.isLoading = true;
-        task.execute(req);
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,req);
 
     }
 
@@ -110,14 +111,20 @@ public class FollowingFragment extends Fragment implements PaginatedFragment, Fo
         this.isLoading = true;
         FollowingTask task = new FollowingTask(this,presenter);
         FollowingRequest req = new FollowingRequest(toGetOf,USER_PER_PAGE,previousLast);
-        task.execute(req);
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,req);
 
     }
 
     @Override
     public void addFollowing(FollowingResponse res) {
         toDisplay.addAll(res.getUsersTheyAreFollowing());
-        previousLast = toDisplay.get(toDisplay.size()-1);
+        if(res.getUsersTheyAreFollowing().size() == 0){
+            this.hasMore =res.hasMore();
+            this.isLoading = false;
+            return;
+        }
+
+        previousLast = res.getUsersTheyAreFollowing().get(res.getUsersTheyAreFollowing().size()-1);
         System.out.println(toDisplay.size());
         adapter.updateData(toDisplay);
         this.hasMore = res.hasMore();

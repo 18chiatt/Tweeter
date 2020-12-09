@@ -1,6 +1,7 @@
 package com.example.tweeter.view.fragments.Login;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -95,7 +96,7 @@ public class LoginFragment extends Fragment implements LoginTask.Observer {
             String passwordString = password.getText().toString();
             LoginRequest req = new LoginRequest(usernameString,passwordString);
             LoginTask task = new LoginTask(new LoginPresenter(),this);
-            task.execute(req);
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,req);
 
         });
 

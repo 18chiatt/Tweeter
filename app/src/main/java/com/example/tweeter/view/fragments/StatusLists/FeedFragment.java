@@ -1,6 +1,7 @@
 package com.example.tweeter.view.fragments.StatusLists;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -40,6 +41,7 @@ public class FeedFragment extends Fragment implements PaginatedFragment, FeedTas
     List<Status> toDisplay;
     RecyclerView recyclerView;
     private StatusRecyclerViewAdapter adapter;
+    boolean ignoreNext = false;
 
 
     public FeedFragment() {
@@ -103,14 +105,18 @@ public class FeedFragment extends Fragment implements PaginatedFragment, FeedTas
         this.isLoading = true;
         FeedRequest request = new FeedRequest(theUser,numStatusPerPage,previousLast);
         FeedTask task = new FeedTask(this,new FeedPresenter());
-        task.execute(request);
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,request);
+
     }
 
 
     @Override
     public void updateModel(FeedResponse resp) {
-
-        this.toDisplay.addAll(resp.getTheStatus());
+        if(this.ignoreNext){
+            this.ignoreNext = false;
+            return;
+        }
+        //this.toDisplay.addAll(resp.getTheStatus());
         if(resp.getTheStatus().size() > 0) {
             this.previousLast = resp.getTheStatus().get(resp.getTheStatus().size() - 1);
             hasMore = resp.isHasMore();
@@ -141,8 +147,14 @@ public class FeedFragment extends Fragment implements PaginatedFragment, FeedTas
     public void modelUpdated() {
         adapter.clear();
         this.hasMore = true;
+        if(this.isLoading){
+            this.ignoreNext = true;
+        }
         this.isLoading = false;
         previousLast = null;
+        System.out.println("modelUPDATED");
+
+
         loadMore();
     }
 }

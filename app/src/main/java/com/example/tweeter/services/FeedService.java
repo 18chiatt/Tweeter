@@ -14,6 +14,10 @@ public class FeedService {
         ServerFacade server = new ServerProxy(); //FIXME update to use real server
         FeedResponse toRespondWith = server.getFeed(req);
 
+        if(toRespondWith.getTheStatus() == null){
+            return toRespondWith;
+        }
+
         for(Status s : toRespondWith.getTheStatus()){
             ImageService.loadImage(s.getSaidBy());
         }

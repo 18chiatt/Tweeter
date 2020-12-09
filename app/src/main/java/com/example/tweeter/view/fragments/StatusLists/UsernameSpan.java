@@ -2,6 +2,7 @@ package com.example.tweeter.view.fragments.StatusLists;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.Toast;
@@ -30,7 +31,7 @@ public class UsernameSpan extends ClickableSpan implements UserTask.Observer {
     public void onClick(@NonNull View widget) {
         System.out.println("Called something!");
         UserTask task = new UserTask(new UserPresenter(),this);
-        task.execute(new UserRequest(alias));
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,new UserRequest(alias));
 
     }
 

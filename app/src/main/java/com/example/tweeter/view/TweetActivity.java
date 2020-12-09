@@ -2,6 +2,7 @@ package com.example.tweeter.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -84,7 +85,7 @@ public class TweetActivity extends AppCompatActivity implements PostStatusTask.O
             Status toPost = new Status(entry.getText().toString(), Instant.now().getEpochSecond(),loggedInAs);
             PostStatusRequest req = new PostStatusRequest(toPost, AuthTokenHolder.authToken);
             PostStatusTask task = new PostStatusTask(new PostStatusPresenter(),this);
-            task.execute(req);
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,req);
         });
 
     }

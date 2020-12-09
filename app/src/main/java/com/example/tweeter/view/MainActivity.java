@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,6 +18,7 @@ import com.example.tweeter.model.domain.User;
 import com.example.tweeter.model.request.UserStatsRequest;
 import com.example.tweeter.presenter.ObserverNotificationPresenter;
 import com.example.tweeter.presenter.UserStatsPresenter;
+import com.example.tweeter.services.AuthTokenHolder;
 import com.example.tweeter.view.Tasks.RegisterObserverTask;
 import com.example.tweeter.view.Tasks.UserStatsTask;
 import com.example.tweeter.view.util.ImageUtils;
@@ -79,8 +81,8 @@ public class MainActivity extends AppCompatActivity implements UserStatsTask.Obs
         tweetButton = findViewById(R.id.tweetActivityLauncher);
 
         UserStatsTask task = new UserStatsTask(new UserStatsPresenter(),this);
-        UserStatsRequest req = new UserStatsRequest(loggedInAs);
-        task.execute(req);
+        UserStatsRequest req = new UserStatsRequest(loggedInAs, AuthTokenHolder.authToken,loggedInAs);
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,req);
 
         tweetButton.setOnClickListener((c)-> {
             Intent intent = new Intent(this, TweetActivity.class);
@@ -105,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements UserStatsTask.Obs
     @Override
     public void modelUpdated() {
         UserStatsTask task = new UserStatsTask(new UserStatsPresenter(),this);
-        UserStatsRequest req = new UserStatsRequest(loggedInAs);
-        task.execute(req);
+        UserStatsRequest req = new UserStatsRequest(loggedInAs,AuthTokenHolder.authToken,loggedInAs);
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,req);
     }
 }

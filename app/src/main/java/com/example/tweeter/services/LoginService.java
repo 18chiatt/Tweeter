@@ -11,13 +11,18 @@ public class LoginService {
 
         ServerFacade server =  new ServerProxy();
         LoginResponse resp = server.login(req);
+        AuthTokenHolder.setAuthToken(resp.getAuthToken());
+        System.out.println("AuthToken: "+ AuthTokenHolder.authToken);
         if(resp.isSuccess())
             ImageService.loadImage(resp.getLoggedInAs());
         return resp;
     }
 
     public LoginResponse login (LoginRequest req, ServerFacade server){
+
         LoginResponse resp = server.login(req);
+        AuthTokenHolder.setAuthToken(resp.getAuthToken());
+        System.out.println("AuthToken: "+ AuthTokenHolder.authToken);
         if(resp.isSuccess())
             ImageService.loadImage(resp.getLoggedInAs());
         return resp;

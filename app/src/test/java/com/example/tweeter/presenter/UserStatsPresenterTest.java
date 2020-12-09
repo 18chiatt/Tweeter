@@ -11,6 +11,7 @@ import com.example.tweeter.model.request.LoginRequest;
 import com.example.tweeter.model.request.RegisterRequest;
 import com.example.tweeter.model.request.UserRequest;
 import com.example.tweeter.model.request.UserStatsRequest;
+import com.example.tweeter.services.AuthTokenHolder;
 import com.example.tweeter.services.PostTweetService;
 
 import org.junit.Before;
@@ -44,7 +45,7 @@ public class UserStatsPresenterTest {
 
         for(User u : server.getAll()){
             index++;
-            UserStatsRequest req = new UserStatsRequest(u);
+            UserStatsRequest req = new UserStatsRequest(u, AuthTokenHolder.authToken,user);
             UserStatsResponse resp = toUse.getUserStats(req,new ServerFake());
 
             FollowerRequest followerRequest = new FollowerRequest(u,Integer.MAX_VALUE,null);

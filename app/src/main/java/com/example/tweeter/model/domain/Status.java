@@ -8,7 +8,7 @@ public class Status implements Comparable<Status> {
     public Status(String message, Long timeOfPost, User saidBy) {
         this.message = message;
         this.timeOfPost = timeOfPost;
-        this.saidBy = saidBy;
+        this.saidBy = new User(saidBy.getFirstName(),saidBy.getLastName(),saidBy.getUserName(),saidBy.getImageURL());
     }
 
     public String getMessage() {
@@ -37,7 +37,7 @@ public class Status implements Comparable<Status> {
     public User getSaidBy() {
         return saidBy;
     }
-    @Expose(serialize = true, deserialize = true)
+    @Expose
     private User saidBy;
 
 

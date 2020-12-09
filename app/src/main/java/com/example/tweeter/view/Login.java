@@ -40,7 +40,8 @@ public class Login extends AppCompatActivity implements LoginTask.Observer {
         Intent intent = new Intent(this,MainActivity.class);
         Bundle extras = new Bundle();
         extras.putSerializable(LoginResponse.LOGIN_RESPONSE_KEY,loginResponse);
-        AuthTokenHolder.authToken = loginResponse.getAuthToken();
+        AuthTokenHolder.setAuthToken(loginResponse.getAuthToken());
+        System.out.println("AuthToken: "+AuthTokenHolder.authToken);
         intent.putExtras(extras);
         startActivity(intent);
 

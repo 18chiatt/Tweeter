@@ -1,6 +1,7 @@
 package com.example.tweeter.view.fragments.StatusLists;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -25,6 +26,7 @@ import com.example.tweeter.view.Tasks.StoryTask;
 import com.example.tweeter.view.fragments.PaginatedFragment;
 
 import java.util.List;
+import java.util.concurrent.Executor;
 
 
 public class StoryFragment extends Fragment implements StoryTask.Observer, IntentFulfiller , PaginatedFragment, ModelObserver {
@@ -93,7 +95,9 @@ public class StoryFragment extends Fragment implements StoryTask.Observer, Inten
         StoryRequest req = new StoryRequest(numStatusPerPage,theUser,previousLast);
 
         StoryTask task = new StoryTask(new StoryPresenter(),this);
-        task.execute(req);
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,req);
+
+
 
     }
 
@@ -131,4 +135,6 @@ public class StoryFragment extends Fragment implements StoryTask.Observer, Inten
         previousLast = null;
         loadMore();
     }
+
+
 }

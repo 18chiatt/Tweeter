@@ -43,7 +43,7 @@ public class UserStatsServiceTest {
 
         for(User u : server.getAll()){
             index++;
-            UserStatsRequest req = new UserStatsRequest(u);
+            UserStatsRequest req = new UserStatsRequest(u,AuthTokenHolder.authToken,user);
             UserStatsResponse resp = toUse.getUserStats(req,new ServerFake());
 
             FollowerRequest followerRequest = new FollowerRequest(u,Integer.MAX_VALUE,null);

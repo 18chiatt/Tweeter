@@ -1,6 +1,7 @@
 package com.example.tweeter.view;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.example.tweeter.R;
@@ -74,9 +75,9 @@ public class PersonActivity extends AppCompatActivity implements UserStatsTask.O
 
         firstLastName.setText(viewing.getFirstName() + " " + viewing.getLastName());
         alias.setText("@" + viewing.getUserName());
-        UserStatsRequest req = new UserStatsRequest(viewing);
+        UserStatsRequest req = new UserStatsRequest(viewing,AuthTokenHolder.authToken,loggedInAs);
         UserStatsTask task = new UserStatsTask(new UserStatsPresenter(),this);
-        task.execute(req);
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,req);
 
         tabs = findViewById(R.id.person_tabs);
         pager = findViewById(R.id.person_viewPager);
@@ -84,9 +85,10 @@ public class PersonActivity extends AppCompatActivity implements UserStatsTask.O
         pager.setAdapter(adapter);
         adapter.setUser(viewing,loggedInAs);
         tabs.setupWithViewPager(pager);
+
         FollowingStatusTask theTask = new FollowingStatusTask(this,new FollowingStatusPresenter());
         FollowingStatusRequest request = new FollowingStatusRequest(loggedInAs,viewing);
-        theTask.execute(request);
+        theTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,request);
 
 
 
@@ -100,6 +102,7 @@ public class PersonActivity extends AppCompatActivity implements UserStatsTask.O
 
     @Override
     public void update(FollowingStatusResponse resp) {
+
         if(resp.isFollows()){
             followButton.setText("Following");
             followButton.setOnClickListener((c) -> {
@@ -112,7 +115,7 @@ public class PersonActivity extends AppCompatActivity implements UserStatsTask.O
             followButton.setOnClickListener((c) -> {
                 FollowManipulationTask task = new FollowManipulationTask(new FollowManipulationPresenter(),this);
                 FollowManipulationRequest req = new FollowManipulationRequest(loggedInAs,viewing,true,AuthTokenHolder.authToken);
-                task.execute(req);
+                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,req);
             });
 
         }
@@ -120,13 +123,15 @@ public class PersonActivity extends AppCompatActivity implements UserStatsTask.O
 
     @Override
     public void setResults(FollowManipulationResult res) {
+        System.out.println("we are currently following"+ res.isNowFollowing());
+        System.out.println("We are setting results!");
         update(new FollowingStatusResponse(res.isNowFollowing()));
     }
 
     @Override
     public void modelUpdated() {
-        UserStatsRequest req = new UserStatsRequest(viewing);
+        UserStatsRequest req = new UserStatsRequest(viewing,AuthTokenHolder.authToken,loggedInAs);
         UserStatsTask task = new UserStatsTask(new UserStatsPresenter(),this);
-        task.execute(req);
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,req);
     }
 }

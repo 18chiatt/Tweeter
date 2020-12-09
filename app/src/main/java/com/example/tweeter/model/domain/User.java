@@ -25,15 +25,15 @@ public class User implements Serializable {
                 ", imageURL='" + imageURL + '\'' +
                 '}';
     }
-    @Expose(serialize = true, deserialize = true)
+    @Expose
     private String firstName;
-    @Expose(serialize = true, deserialize = true)
+    @Expose
     private String lastName;
-    @Expose(serialize = true, deserialize = true)
+    @Expose
     private String userName;
-    @Expose(serialize = true, deserialize = true)
+    @Expose
     private String imageURL;
-    @Expose(serialize = false, deserialize = false)
+
     private  byte [] imageBytes;
 
     public String getFirstName() {
